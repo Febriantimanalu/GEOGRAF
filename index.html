@@ -1,1 +1,1920 @@
-welcome
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menjelajahi Litosfer Bumi - Geografi Kelas X</title>
+    <style>
+        :root {
+            --brown: #8B5A2B;
+            --dark-brown: #5C3A1E;
+            --green: #2E8B57;
+            --blue: #1E90FF;
+            --orange: #FF8C00;
+            --gray: #696969;
+            --light-gray: #f4f4f4;
+            --dark: #2c2c2c;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: var(--white);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ===== GLOBAL ===== */
+        .screen {
+            display: none;
+            padding: 20px;
+            min-height: 100vh;
+            animation: fadeIn 0.5s ease;
+        }
+        .screen.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        @keyframes lava {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1, h2, h3 { margin-bottom: 15px; }
+        h2 { color: var(--orange); font-size: 2em; border-bottom: 3px solid var(--green); padding-bottom: 10px; display: inline-block; }
+        h3 { color: var(--blue); }
+        p { line-height: 1.7; margin-bottom: 12px; color: #ddd; }
+
+        .btn {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--orange), #ff5722);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.6);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--green);
+            border: 2px solid var(--green);
+        }
+        .btn-secondary:hover {
+            background: var(--green);
+            color: white;
+        }
+        .btn-nav {
+            background: linear-gradient(135deg, var(--brown), var(--dark-brown));
+            color: white;
+            padding: 10px 20px;
+            font-size: 0.9em;
+            margin: 5px;
+        }
+        .btn-nav:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, var(--green), var(--blue));
+        }
+
+        /* ===== HEADER / NAVBAR ===== */
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            padding: 10px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            position: sticky;
+            top: 5px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        /* ===== OPENING SCREEN ===== */
+        #opening {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #0d0d1a 100%);
+        }
+        .earth-3d {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #4a90d9, #1a5276 40%, #0b3d6b 70%, #062644);
+            box-shadow: 
+                0 0 40px rgba(30, 144, 255, 0.5),
+                inset -20px -20px 50px rgba(0,0,0,0.6),
+                inset 10px 10px 30px rgba(255,255,255,0.1);
+            margin: 20px auto;
+            position: relative;
+            animation: float 4s ease-in-out infinite;
+            overflow: hidden;
+        }
+        .earth-3d::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 40%, #2E8B57 0%, transparent 25%),
+                radial-gradient(circle at 60% 30%, #228B22 0%, transparent 20%),
+                radial-gradient(circle at 70% 60%, #2E8B57 0%, transparent 18%),
+                radial-gradient(circle at 30% 70%, #3CB371 0%, transparent 15%),
+                radial-gradient(circle at 45% 55%, #8B5A2B 0%, transparent 12%);
+            border-radius: 50%;
+        }
+        .earth-3d::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            border-radius: 50%;
+            animation: spin 8s linear infinite;
+        }
+        .earth-inner {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 50%, #ff4500 0%, #ff8c00 15%, transparent 25%);
+            opacity: 0.3;
+        }
+        .title-main {
+            font-size: clamp(2em, 6vw, 4em);
+            font-weight: 900;
+            background: linear-gradient(90deg, #FF8C00, #FFD700, #FF8C00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% auto;
+            animation: lava 3s linear infinite;
+            text-shadow: 0 0 30px rgba(255, 140, 0, 0.3);
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: clamp(1em, 2.5vw, 1.4em);
+            color: #aaa;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        .info-badge {
+            display: inline-block;
+            background: rgba(46, 139, 87, 0.2);
+            border: 1px solid var(--green);
+            padding: 8px 20px;
+            border-radius: 30px;
+            color: #90ee90;
+            margin: 5px;
+            font-size: 0.9em;
+        }
+
+        /* ===== MENU GRID ===== */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 20px auto;
+        }
+        .menu-card {
+            background: linear-gradient(135deg, rgba(139,90,43,0.3), rgba(46,139,87,0.2));
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 15px;
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        .menu-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            border-color: var(--orange);
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3);
+        }
+        .menu-card .icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .menu-card h3 {
+            color: #fff;
+            font-size: 1em;
+            margin-bottom: 5px;
+        }
+        .menu-card p {
+            font-size: 0.8em;
+            color: #bbb;
+            margin: 0;
+        }
+
+        /* ===== CONTENT CARDS ===== */
+        .content-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--orange);
+            animation: slideIn 0.5s ease;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+        .info-box {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+        .info-box:hover {
+            border-color: var(--green);
+            background: rgba(46,139,87,0.1);
+        }
+        .info-box h4 {
+            color: var(--orange);
+            margin-bottom: 8px;
+        }
+        .tag {
+            display: inline-block;
+            background: var(--green);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            margin: 3px;
+        }
+
+        /* ===== IMAGE / ILUSTRASI ===== */
+        .illustration {
+            width: 100%;
+            max-width: 500px;
+            margin: 15px auto;
+            display: block;
+            border-radius: 12px;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+        .illustration-small {
+            width: 100%;
+            max-width: 220px;
+            margin: 10px auto;
+            display: block;
+        }
+        .info-box .illustration {
+            max-width: 100%;
+            margin: 8px auto;
+        }
+
+        /* ===== EARTH LAYERS VISUAL ===== */
+        .earth-layers {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 700px;
+            margin: 20px auto;
+        }
+        .layer-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 6px solid var(--gray);
+        }
+        .layer-item:hover {
+            transform: translateX(10px);
+            background: rgba(255,255,255,0.08);
+        }
+        .layer-item.active {
+            border-left-color: var(--orange);
+            background: rgba(255,140,0,0.15);
+        }
+        .layer-color {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+        .layer-detail {
+            display: none;
+            margin-top: 15px;
+            padding: 20px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 12px;
+            border: 1px dashed var(--orange);
+        }
+        .layer-detail.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* ===== PLATE TECTONICS ===== */
+        .plate-animation {
+            height: 150px;
+            background: #0d1b2a;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .plate {
+            width: 100px;
+            height: 60px;
+            border-radius: 8px;
+            position: absolute;
+            transition: all 1.5s ease;
+        }
+        .plate-left {
+            background: linear-gradient(135deg, var(--green), #1b5e20);
+            left: 10%;
+        }
+        .plate-right {
+            background: linear-gradient(135deg, var(--blue), #0d47a1);
+            right: 10%;
+        }
+        .plate-arrow {
+            position: absolute;
+            font-size: 2em;
+            color: var(--orange);
+            animation: pulse 1s infinite;
+        }
+
+        /* ===== ROCK CYCLE ===== */
+        .rock-cycle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        .rock-node {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.85em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid rgba(255,255,255,0.3);
+            padding: 10px;
+        }
+        .rock-node:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 0 30px rgba(255,140,0,0.5);
+        }
+        .rock-igneous { background: radial-gradient(circle, #ff5722, #b71c1c); }
+        .rock-sedimentary { background: radial-gradient(circle, #ffc107, #ff6f00); }
+        .rock-metamorphic { background: radial-gradient(circle, #9c27b0, #4a148c); }
+
+        /* ===== QUIZ ===== */
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .question-box {
+            background: rgba(0,0,0,0.4);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .question-number {
+            color: var(--orange);
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .question-text {
+            font-size: 1.15em;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option {
+            padding: 14px 20px;
+            background: rgba(255,255,255,0.06);
+            border: 2px solid rgba(255,255,255,0.15);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #ddd;
+            text-align: left;
+            font-size: 1em;
+        }
+        .option:hover:not(.disabled) {
+            background: rgba(255,140,0,0.2);
+            border-color: var(--orange);
+            transform: translateX(5px);
+        }
+        .option.correct {
+            background: rgba(46,139,87,0.4);
+            border-color: var(--green);
+        }
+        .option.wrong {
+            background: rgba(220,53,69,0.4);
+            border-color: #dc3545;
+        }
+        .option.disabled {
+            cursor: not-allowed;
+        }
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            font-size: 0.95em;
+        }
+        .feedback.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        .feedback.correct-fb {
+            background: rgba(46,139,87,0.2);
+            border-left: 4px solid var(--green);
+        }
+        .feedback.wrong-fb {
+            background: rgba(220,53,69,0.2);
+            border-left: 4px solid #dc3545;
+        }
+        .progress-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green), var(--orange));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* ===== GAME ===== */
+        .drag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .drag-items, .drop-zones {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .drag-item {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--brown), var(--dark-brown));
+            border-radius: 10px;
+            cursor: grab;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            user-select: none;
+        }
+        .drag-item:hover {
+            border-color: var(--orange);
+            transform: scale(1.05);
+        }
+        .drag-item.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+        .drop-zone {
+            padding: 15px 25px;
+            background: rgba(255,255,255,0.05);
+            border: 2px dashed rgba(255,255,255,0.2);
+            border-radius: 10px;
+            min-width: 200px;
+            min-height: 50px;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .drop-zone.drag-over {
+            background: rgba(46,139,87,0.2);
+            border-color: var(--green);
+        }
+        .drop-zone.correct-drop {
+            border-color: var(--green);
+            background: rgba(46,139,87,0.2);
+        }
+        .drop-zone.wrong-drop {
+            border-color: #dc3545;
+            background: rgba(220,53,69,0.2);
+        }
+
+        /* ===== MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal.show {
+            display: flex;
+        }
+        .modal-content {
+            background: #1e1e2e;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid var(--orange);
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .screen { padding: 12px; }
+            .navbar { padding: 5px; }
+            .btn-nav { padding: 8px 12px; font-size: 0.75em; }
+            .content-card { padding: 15px; }
+            .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .menu-card { padding: 15px 8px; }
+            .menu-card .icon { font-size: 1.8em; }
+            .rock-node { width: 100px; height: 100px; font-size: 0.75em; }
+            .drag-container { flex-direction: column; align-items: center; }
+        }
+
+        /* ===== RESULT ===== */
+        .result-card {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(46,139,87,0.2), rgba(255,140,0,0.2));
+            border-radius: 20px;
+            border: 2px solid var(--orange);
+        }
+        .score-big {
+            font-size: 4em;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--green), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .badge-result {
+            display: inline-block;
+            padding: 10px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            margin: 10px;
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1a1a2e; }
+        ::-webkit-scrollbar-thumb { background: var(--brown); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--orange); }
+    </style>
+</head>
+<body>
+
+<!-- ================= SCREEN 1: OPENING ================= -->
+<div id="opening" class="screen active">
+    <div class="earth-3d">
+        <div class="earth-inner"></div>
+    </div>
+    <h1 class="title-main">MENJELAJAHI LITOSFER BUMI</h1>
+    <p class="subtitle">Mengenal Struktur, Proses, dan Dinamika Permukaan Bumi</p>
+    <div>
+        <span class="info-badge">🌍 Mata Pelajaran Geografi</span>
+        <span class="info-badge">📚 Kelas X SMA</span>
+    </div>
+    <br><br>
+    <button class="btn btn-primary" onclick="startLearning()">🚀 MULAI BELAJAR</button>
+</div>
+
+<!-- ================= MAIN MENU ================= -->
+<div id="mainMenu" class="screen">
+    <h2>🏠 Menu Utama</h2>
+    <p>Pilih topik pembelajaran yang ingin kamu jelajahi:</p>
+    <div class="menu-grid">
+        <div class="menu-card" onclick="showScreen('tujuan')">
+            <span class="icon">🎯</span>
+            <h3>Tujuan Pembelajaran</h3>
+            <p>Target yang akan dicapai</p>
+        </div>
+        <div class="menu-card" onclick="showScreen('pengertian')">
+            <span class="icon">📖</span>
+            <h3>Pengertian Litosfer</h3>
+            <p>Definisi & karakteristik</p>
+        </div>
+        <div class="menu-card" onclick="showScreen('struktur')">
+            <span class="icon">🌐</span>
+            <h3>Struktur Lapisan Bumi</h3>
+            <p>Kerak, mantel, inti</p>
+        </div>
+        <div class="menu-card" onclick="showScreen('batuan')">
+            <span class="icon">🪨</span>
+            <h3>Jenis Batuan</h3>
+            <p>Beku, sedimen, metamorf</p>
+        </div>
+        <div class="menu-card" onclick="showScreen('endogen')">
+            <span class="icon">🌋</span>
+            <h3>Tenaga Endogen</h3>
+            <p>Tektonisme, vulkanisme, seisme</p>
+        </div>
+        <div class="menu-card" onclick="showScreen('eksogen')">
+            <span class="icon">💨</span>
+            <h3>Tenaga Eksogen</h3>
+            <p>Pelapukan, erosi, sedimentasi</p>
+        </div>
+        <div class="menu-card" onclick="showScreen('lempeng')">
+            <span class="icon">🔀</span>
+            <h3>Pergerakan Lempeng</h3>
+            <p>Konvergen, divergen, transform</p>
+        </div>
+        <div class="menu-card" onclick="showScreen('fenomena')">
+            <span class="icon">🇮🇩</span>
+            <h3>Fenomena Geologi Indonesia</h3>
+            <p>Gunung api, gempa, tsunami</p>
+        </div>
+        <div class="menu-card" onclick="showScreen('simulasi')">
+            <span class="icon">🧪</span>
+            <h3>Simulasi Interaktif</h3>
+            <p>Eksplorasi & percobaan</p>
+        </div>
+        <div class="menu-card" onclick="showScreen('kuis')">
+            <span class="icon">📝</span>
+            <h3>Kuis Interaktif</h3>
+            <p>15 soal pilihan ganda</p>
+        </div>
+        <div class="menu-card" onclick="showScreen('game')">
+            <span class="icon">🎮</span>
+            <h3>Permainan Edukatif</h3>
+            <p>3 game seru</p>
+        </div>
+        <div class="menu-card" onclick="showScreen('rangkuman')">
+            <span class="icon">🗺️</span>
+            <h3>Rangkuman Materi</h3>
+            <p>Peta konsep interaktif</p>
+        </div>
+        <div class="menu-card" onclick="showScreen('penutup')">
+            <span class="icon">🌟</span>
+            <h3>Penutup</h3>
+            <p>Pesan motivasi</p>
+        </div>
+    </div>
+</div>
+
+<!-- ================= TUJUAN ================= -->
+<div id="tujuan" class="screen">
+    <div class="navbar">
+        <button class="btn btn-nav" onclick="showScreen('mainMenu')">🏠 Menu</button>
+        <button class="btn btn-nav" onclick="showScreen('pengertian')">Selanjutnya ➡️</button>
+    </div>
+    <h2>🎯 Tujuan Pembelajaran</h2>
+    <div class="content-card">
+        <svg class="illustration" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="380" height="100" rx="15" fill="#1e2d3d" stroke="#FF8C00" stroke-width="2"/>
+            <circle cx="60" cy="60" r="30" fill="#2E8B57" opacity="0.8"/>
+            <text x="60" y="66" text-anchor="middle" fill="white" font-size="20" font-weight="bold">🎯</text>
+            <text x="110" y="45" fill="#FF8C00" font-size="14" font-weight="bold">TUJUAN PEMBELAJARAN</text>
+            <text x="110" y="68" fill="#ccc" font-size="11">Memahami litosfer secara menyeluruh</text>
+            <text x="110" y="88" fill="#90ee90" font-size="11">melalui eksplorasi & simulasi interaktif</text>
+        </svg>
+        <p>Setelah menggunakan media pembelajaran ini, peserta didik diharapkan mampu:</p>
+        <div class="content-grid">
+            <div class="info-box"><h4>1️⃣ Pengertian Litosfer</h4><p>Menjelaskan pengertian dan karakteristik litosfer.</p></div>
+            <div class="info-box"><h4>2️⃣ Struktur Bumi</h4><p>Mengidentifikasi struktur dan lapisan penyusun bumi.</p></div>
+            <div class="info-box"><h4>3️⃣ Jenis Batuan</h4><p>Menjelaskan jenis-jenis batuan penyusun litosfer.</p></div>
+            <div class="info-box"><h4>4️⃣ Tenaga Endogen & Eksogen</h4><p>Memahami proses tenaga endogen dan eksogen.</p></div>
+            <div class="info-box"><h4>5️⃣ Pergerakan Lempeng</h4><p>Menganalisis proses pergerakan lempeng tektonik.</p></div>
+            <div class="info-box"><h4>6️⃣ Fenomena Geologi</h4><p>Mengidentifikasi berbagai fenomena geologi di permukaan bumi.</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= PENGERTIAN ================= -->
+<div id="pengertian" class="screen">
+    <div class="navbar">
+        <button class="btn btn-nav" onclick="showScreen('mainMenu')">🏠 Menu</button>
+        <button class="btn btn-nav" onclick="showScreen('tujuan')">⬅️ Sebelumnya</button>
+        <button class="btn btn-nav" onclick="showScreen('struktur')">Selanjutnya ➡️</button>
+    </div>
+    <h2>📖 Pengertian Litosfer</h2>
+    <div class="content-card">
+        <!-- Ilustrasi Litosfer -->
+        <svg class="illustration" viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#1a1a2e"/>
+                    <stop offset="100%" stop-color="#16213e"/>
+                </linearGradient>
+                <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#8B5A2B"/>
+                    <stop offset="100%" stop-color="#5C3A1E"/>
+                </linearGradient>
+            </defs>
+            <rect width="500" height="200" rx="12" fill="url(#skyGrad)"/>
+            <!-- Bumi setengah lingkaran -->
+            <path d="M 50 200 A 200 200 0 0 1 450 200 Z" fill="url(#groundGrad)"/>
+            <path d="M 50 200 A 200 200 0 0 1 450 200" fill="none" stroke="#2E8B57" stroke-width="4"/>
+            <!-- Lapisan litosfer -->
+            <path d="M 70 200 A 180 180 0 0 1 430 200" fill="none" stroke="#2E8B57" stroke-width="8" opacity="0.9"/>
+            <path d="M 90 200 A 160 160 0 0 1 410 200" fill="none" stroke="#FF8C00" stroke-width="3" opacity="0.6"/>
+            <!-- Label -->
+            <text x="250" y="100" text-anchor="middle" fill="#FF8C00" font-size="18" font-weight="bold">LITOSFER</text>
+            <text x="250" y="125" text-anchor="middle" fill="#ccc" font-size="12">Lapisan batuan padat terluar bumi</text>
+            <text x="250" y="180" text-anchor="middle" fill="#90ee90" font-size="11">Ketebalan ±50–100 km</text>
+        </svg>
+        <h3>Apa itu Litosfer?</h3>
+        <p><strong>Litosfer</strong> berasal dari bahasa Yunani: <em>lithos</em> (batu) dan <em>sphaira</em> (lapisan). Litosfer adalah lapisan batuan padat yang membentuk kulit terluar bumi, meliputi kerak bumi dan bagian atas mantel yang bersifat padat. Ketebalannya sekitar 50–100 km.</p>
+        <div class="content-grid">
+            <div class="info-box">
+                <h4>🔑 Karakteristik</h4>
+                <svg class="illustration-small" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" y="5" width="190" height="90" rx="10" fill="#0d1b2a" stroke="#2E8B57" stroke-width="2"/>
+                    <text x="100" y="35" text-anchor="middle" fill="#FF8C00" font-size="12">🔑 KARAKTERISTIK</text>
+                    <text x="100" y="55" text-anchor="middle" fill="#ccc" font-size="10">• Padat dan kaku</text>
+                    <text x="100" y="70" text-anchor="middle" fill="#ccc" font-size="10">• Terdiri dari lempeng</text>
+                    <text x="100" y="85" text-anchor="middle" fill="#ccc" font-size="10">• Tempat fenomena geologi</text>
+                </svg>
+                <p>• Bersifat padat dan kaku<br>• Terdiri dari lempeng-lempeng tektonik<br>• Menjadi tempat terjadinya berbagai fenomena geologi</p>
+            </div>
+            <div class="info-box">
+                <h4>🧱 Komposisi</h4>
+                <svg class="illustration-small" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" y="5" width="190" height="90" rx="10" fill="#0d1b2a" stroke="#1E90FF" stroke-width="2"/>
+                    <text x="100" y="30" text-anchor="middle" fill="#1E90FF" font-size="12">🧱 KOMPOSISI</text>
+                    <rect x="20" y="45" width="100" height="10" rx="5" fill="#1E90FF"/>
+                    <text x="130" y="54" fill="#ccc" font-size="9">Oksigen 46%</text>
+                    <rect x="20" y="60" width="60" height="10" rx="5" fill="#2E8B57"/>
+                    <text x="90" y="69" fill="#ccc" font-size="9">Silikon 28%</text>
+                    <rect x="20" y="75" width="25" height="10" rx="5" fill="#FF8C00"/>
+                    <text x="55" y="84" fill="#ccc" font-size="9">Al 8%</text>
+                </svg>
+                <p>• Oksigen (46%)<br>• Silikon (28%)<br>• Aluminium (8%)<br>• Besi, kalsium, natrium, kalium, magnesium</p>
+            </div>
+            <div class="info-box">
+                <h4>🌱 Peranan bagi Kehidupan</h4>
+                <svg class="illustration-small" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" y="5" width="190" height="90" rx="10" fill="#0d1b2a" stroke="#FF8C00" stroke-width="2"/>
+                    <text x="100" y="30" text-anchor="middle" fill="#FF8C00" font-size="12">🌱 PERANAN</text>
+                    <text x="100" y="52" text-anchor="middle" fill="#90ee90" font-size="10">🌿 Tempat hidup</text>
+                    <text x="100" y="68" text-anchor="middle" fill="#90ee90" font-size="10">⛏️ Sumber mineral</text>
+                    <text x="100" y="84" text-anchor="middle" fill="#90ee90" font-size="10">🏡 Permukiman</text>
+                </svg>
+                <p>• Tempat hidup makhluk hidup<br>• Sumber daya mineral dan batuan<br>• Media pertanian dan permukiman</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= STRUKTUR ================= -->
+<div id="struktur" class="screen">
+    <div class="navbar">
+        <button class="btn btn-nav" onclick="showScreen('mainMenu')">🏠 Menu</button>
+        <button class="btn btn-nav" onclick="showScreen('pengertian')">⬅️ Sebelumnya</button>
+        <button class="btn btn-nav" onclick="showScreen('batuan')">Selanjutnya ➡️</button>
+    </div>
+    <h2>🌐 Struktur Lapisan Bumi</h2>
+    <!-- Ilustrasi Struktur Bumi -->
+    <svg class="illustration" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <radialGradient id="coreGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#FFD700"/>
+                <stop offset="70%" stop-color="#FF4500"/>
+                <stop offset="100%" stop-color="#8B0000"/>
+            </radialGradient>
+            <radialGradient id="mantleGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#FF8C00"/>
+                <stop offset="100%" stop-color="#8B5A2B"/>
+            </radialGradient>
+        </defs>
+        <!-- Kerak -->
+        <circle cx="200" cy="200" r="190" fill="#2E8B57" opacity="0.9"/>
+        <circle cx="200" cy="200" r="180" fill="#8B5A2B"/>
+        <!-- Mantel -->
+        <circle cx="200" cy="200" r="150" fill="url(#mantleGrad)"/>
+        <!-- Inti Luar -->
+        <circle cx="200" cy="200" r="90" fill="#FF4500"/>
+        <!-- Inti Dalam -->
+        <circle cx="200" cy="200" r="45" fill="url(#coreGrad)"/>
+        <!-- Label -->
+        <line x1="200" y1="20" x2="200" y2="55" stroke="#fff" stroke-width="2"/>
+        <text x="200" y="15" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Kerak</text>
+        <line x1="380" y1="120" x2="330" y2="140" stroke="#fff" stroke-width="2"/>
+        <text x="385" y="115" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Mantel</text>
+        <line x1="380" y1="280" x2="300" y2="250" stroke="#fff" stroke-width="2"/>
+        <text x="385" y="295" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Inti Luar</text>
+        <line x1="200" y1="380" x2="200" y2="300" stroke="#fff" stroke-width="2"/>
+        <text x="200" y="395" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Inti Dalam</text>
+    </svg>
+    <p style="text-align:center;color:#aaa;">Klik setiap lapisan untuk melihat detailnya:</p>
+    <div class="earth-layers">
+        <div class="layer-item" onclick="toggleLayer(this)">
+            <div class="layer-color" style="background:#8B5A2B;"></div>
+            <div>
+                <strong>Kerak Bumi (Crust)</strong>
+                <p style="margin:0;font-size:0.85em;color:#aaa;">Lapisan terluar, ketebalan 5–70 km</p>
+            </div>
+        </div>
+        <div class="layer-detail">
+            <h4>Kerak Bumi</h4>
+            <svg class="illustration-small" viewBox="0 0 250 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="240" height="90" rx="10" fill="#3d2b1f" stroke="#8B5A2B" stroke-width="2"/>
+                <text x="125" y="30" text-anchor="middle" fill="#FF8C00" font-size="13" font-weight="bold">KERAK BUMI</text>
+                <text x="125" y="52" text-anchor="middle" fill="#ccc" font-size="10">Ketebalan: 5–70 km</text>
+                <text x="125" y="68" text-anchor="middle" fill="#ccc" font-size="10">Suhu: 0–1.000°C</text>
+                <text x="125" y="84" text-anchor="middle" fill="#90ee90" font-size="10">Batuan: Granit & Basalt</text>
+            </svg>
+            <p>Lapisan terluar bumi yang tersusun dari batuan padat. Terbagi menjadi kerak benua (tebal 30–70 km, granit) dan kerak samudra (tebal 5–10 km, basalt). Suhu: 0–1.000°C. Komposisi: silikat, aluminium, magnesium.</p>
+        </div>
+
+        <div class="layer-item" onclick="toggleLayer(this)">
+            <div class="layer-color" style="background:#FF8C00;"></div>
+            <div>
+                <strong>Mantel Bumi (Mantle)</strong>
+                <p style="margin:0;font-size:0.85em;color:#aaa;">Lapisan tebal, 2.900 km, bersifat padat & dapat mengalir lambat</p>
+            </div>
+        </div>
+        <div class="layer-detail">
+            <h4>Mantel Bumi</h4>
+            <svg class="illustration-small" viewBox="0 0 250 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="240" height="90" rx="10" fill="#3d2b1f" stroke="#FF8C00" stroke-width="2"/>
+                <text x="125" y="30" text-anchor="middle" fill="#FF8C00" font-size="13" font-weight="bold">MANTEL BUMI</text>
+                <text x="125" y="52" text-anchor="middle" fill="#ccc" font-size="10">Ketebalan: ±2.900 km</text>
+                <text x="125" y="68" text-anchor="middle" fill="#ccc" font-size="10">Suhu: 1.000–3.700°C</text>
+                <text x="125" y="84" text-anchor="middle" fill="#90ee90" font-size="10">Arus konveksi mantel</text>
+            </svg>
+            <p>Lapisan di bawah kerak dengan ketebalan ±2.900 km. Terdiri dari mantel atas (astenosfer) yang bersifat plastis dan mantel bawah yang padat. Suhu: 1.000–3.700°C. Komposisi: magnesium, besi, silikat. Arus konveksi di mantel menggerakkan lempeng tektonik.</p>
+        </div>
+
+        <div class="layer-item" onclick="toggleLayer(this)">
+            <div class="layer-color" style="background:#FF4500;"></div>
+            <div>
+                <strong>Inti Luar (Outer Core)</strong>
+                <p style="margin:0;font-size:0.85em;color:#aaa;">Besi & nikel cair, ketebalan ±2.200 km</p>
+            </div>
+        </div>
+        <div class="layer-detail">
+            <h4>Inti Luar</h4>
+            <svg class="illustration-small" viewBox="0 0 250 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="240" height="90" rx="10" fill="#3d2b1f" stroke="#FF4500" stroke-width="2"/>
+                <text x="125" y="30" text-anchor="middle" fill="#FF4500" font-size="13" font-weight="bold">INTI LUAR</text>
+                <text x="125" y="52" text-anchor="middle" fill="#ccc" font-size="10">Besi & nikel CAIR</text>
+                <text x="125" y="68" text-anchor="middle" fill="#ccc" font-size="10">Suhu: 3.700–5.000°C</text>
+                <text x="125" y="84" text-anchor="middle" fill="#90ee90" font-size="10">Menghasilkan medan magnet</text>
+            </svg>
+            <p>Tersusun dari besi dan nikel dalam keadaan cair. Suhu: 3.700–5.000°C. Pergerakan cairan di inti luar menghasilkan medan magnet bumi.</p>
+        </div>
+
+        <div class="layer-item" onclick="toggleLayer(this)">
+            <div class="layer-color" style="background:#FFD700;"></div>
+            <div>
+                <strong>Inti Dalam (Inner Core)</strong>
+                <p style="margin:0;font-size:0.85em;color:#aaa;">Besi & nikel padat, radius ±1.200 km</p>
+            </div>
+        </div>
+        <div class="layer-detail">
+            <h4>Inti Dalam</h4>
+            <svg class="illustration-small" viewBox="0 0 250 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="240" height="90" rx="10" fill="#3d2b1f" stroke="#FFD700" stroke-width="2"/>
+                <text x="125" y="30" text-anchor="middle" fill="#FFD700" font-size="13" font-weight="bold">INTI DALAM</text>
+                <text x="125" y="52" text-anchor="middle" fill="#ccc" font-size="10">Besi & nikel PADAT</text>
+                <text x="125" y="68" text-anchor="middle" fill="#ccc" font-size="10">Suhu: 5.000–6.000°C</text>
+                <text x="125" y="84" text-anchor="middle" fill="#90ee90" font-size="10">Tekanan sangat tinggi</text>
+            </svg>
+            <p>Bagian paling dalam bumi, tersusun dari besi dan nikel dalam keadaan padat meskipun suhunya sangat tinggi (5.000–6.000°C) karena tekanan yang sangat besar. Berada di pusat bumi.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ================= BATUAN ================= -->
+<div id="batuan" class="screen">
+    <div class="navbar">
+        <button class="btn btn-nav" onclick="showScreen('mainMenu')">🏠 Menu</button>
+        <button class="btn btn-nav" onclick="showScreen('struktur')">⬅️ Sebelumnya</button>
+        <button class="btn btn-nav" onclick="showScreen('endogen')">Selanjutnya ➡️</button>
+    </div>
+    <h2>🪨 Jenis-Jenis Batuan</h2>
+    <div class="content-card">
+        <h3>Siklus Batuan</h3>
+        <!-- Ilustrasi Siklus Batuan -->
+        <svg class="illustration" viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#FF8C00"/>
+                </marker>
+            </defs>
+            <rect width="500" height="250" rx="12" fill="#0d1b2a"/>
+            <!-- Magma -->
+            <circle cx="250" cy="125" r="35" fill="#FF4500" opacity="0.8"/>
+            <text x="250" y="130" text-anchor="middle" fill="white" font-size="12" font-weight="bold">MAGMA</text>
+            <!-- Batuan Beku -->
+            <circle cx="80" cy="70" r="45" fill="#ff5722"/>
+            <text x="80" y="65" text-anchor="middle" fill="white" font-size="11" font-weight="bold">BATUAN</text>
+            <text x="80" y="80" text-anchor="middle" fill="white" font-size="11" font-weight="bold">BEKU</text>
+            <!-- Batuan Sedimen -->
+            <circle cx="420" cy="70" r="45" fill="#ffc107"/>
+            <text x="420" y="65" text-anchor="middle" fill="#333" font-size="11" font-weight="bold">BATUAN</text>
+            <text x="420" y="80" text-anchor="middle" fill="#333" font-size="11" font-weight="bold">SEDIMEN</text>
+            <!-- Batuan Metamorf -->
+            <circle cx="250" cy="220" r="45" fill="#9c27b0"/>
+            <text x="250" y="215" text-anchor="middle" fill="white" font-size="11" font-weight="bold">BATUAN</text>
+            <text x="250" y="230" text-anchor="middle" fill="white" font-size="11" font-weight="bold">METAMORF</text>
+            <!-- Panah -->
+            <line x1="115" y1="85" x2="205" y2="115" stroke="#FF8C00" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <line x1="385" y1="85" x2="295" y2="115" stroke="#FF8C00" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <line x1="230" y1="175" x2="150" y2="110" stroke="#FF8C00" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <line x1="270" y1="175" x2="350" y2="110" stroke="#FF8C00" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <line x1="120" y1="100" x2="380" y2="100" stroke="#FF8C00" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowhead)"/>
+            <text x="250" y="100" text-anchor="middle" fill="#FF8C00" font-size="9">pelapukan & erosi</text>
+        </svg>
+        <div class="rock-cycle">
+            <div class="rock-node rock-igneous" onclick="alert('Batuan Beku: terbentuk dari magma/lava yang membeku. Contoh: granit, basalt, diorit.')">🔥<br>Batuan Beku</div>
+            <div style="color:var(--orange);font-size:2em;">→</div>
+            <div class="rock-node rock-sedimentary" onclick="alert('Batuan Sedimen: terbentuk dari pengendapan material. Contoh: batu pasir, batu kapur, konglomerat.')">🏜️<br>Batuan Sedimen</div>
+            <div style="color:var(--orange);font-size:2em;">→</div>
+            <div class="rock-node rock-metamorphic" onclick="alert('Batuan Metamorf: terbentuk dari perubahan batuan akibat suhu & tekanan tinggi. Contoh: marmer, sabak, gneiss.')">💎<br>Batuan Metamorf</div>
+        </div>
+        <p style="text-align:center;color:#aaa;"><em>Klik setiap lingkaran untuk info singkat!</em></p>
+    </div>
+    <div class="content-grid">
+        <div class="info-box">
+            <h4>🔥 A. Batuan Beku</h4>
+            <svg class="illustration-small" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="190" height="110" rx="10" fill="#1a0a00" stroke="#ff5722" stroke-width="2"/>
+                <text x="100" y="25" text-anchor="middle" fill="#ff5722" font-size="12" font-weight="bold">BATUAN BEKU</text>
+                <!-- Magma -->
+                <ellipse cx="100" cy="95" rx="70" ry="20" fill="#FF4500" opacity="0.7"/>
+                <text x="100" y="99" text-anchor="middle" fill="white" font-size="9">Magma</text>
+                <!-- Beku dalam -->
+                <rect x="30" y="40" width="40" height="25" rx="4" fill="#8B5A2B"/>
+                <text x="50" y="56" text-anchor="middle" fill="white" font-size="7">Dalam</text>
+                <!-- Beku korok -->
+                <rect x="80" y="40" width="40" height="25" rx="4" fill="#a0522d"/>
+                <text x="100" y="56" text-anchor="middle" fill="white" font-size="7">Korok</text>
+                <!-- Beku luar -->
+                <rect x="130" y="40" width="40" height="25" rx="4" fill="#cd853f"/>
+                <text x="150" y="56" text-anchor="middle" fill="white" font-size="7">Luar</text>
+            </svg>
+            <p>Terbentuk dari magma yang membeku.</p>
+            <span class="tag">Beku Dalam: Granit, Diorit</span>
+            <span class="tag">Beku Korok: Granit Porfir</span>
+            <span class="tag">Beku Luar: Basalt, Andesit</span>
+        </div>
+        <div class="info-box">
+            <h4>🏜️ B. Batuan Sedimen</h4>
+            <svg class="illustration-small" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="190" height="110" rx="10" fill="#1a1400" stroke="#ffc107" stroke-width="2"/>
+                <text x="100" y="25" text-anchor="middle" fill="#ffc107" font-size="12" font-weight="bold">BATUAN SEDIMEN</text>
+                <!-- Lapisan sedimen -->
+                <rect x="20" y="40" width="160" height="12" rx="3" fill="#d2b48c"/>
+                <rect x="20" y="55" width="160" height="12" rx="3" fill="#c19a6b"/>
+                <rect x="20" y="70" width="160" height="12" rx="3" fill="#a0522d"/>
+                <rect x="20" y="85" width="160" height="12" rx="3" fill="#8B5A2B"/>
+                <text x="100" y="110" text-anchor="middle" fill="#ccc" font-size="8">Pengendapan lapisan material</text>
+            </svg>
+            <p>Terbentuk dari pengendapan material.</p>
+            <span class="tag">Klastik: Batu Pasir, Konglomerat</span>
+            <span class="tag">Kimiawi: Batu Kapur, Gipsum</span>
+            <span class="tag">Organik: Batu Bara, Kapur Organik</span>
+        </div>
+        <div class="info-box">
+            <h4>💎 C. Batuan Metamorf</h4>
+            <svg class="illustration-small" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="190" height="110" rx="10" fill="#0d001a" stroke="#9c27b0" stroke-width="2"/>
+                <text x="100" y="25" text-anchor="middle" fill="#9c27b0" font-size="12" font-weight="bold">BATUAN METAMORF</text>
+                <!-- Kristal metamorf -->
+                <polygon points="60,50 80,40 95,55 85,75 65,75" fill="#ba68c8" opacity="0.8"/>
+                <polygon points="110,45 130,40 140,60 125,80 105,75" fill="#ce93d8" opacity="0.8"/>
+                <text x="100" y="105" text-anchor="middle" fill="#ccc" font-size="8">Suhu & tekanan tinggi</text>
+                <text x="100" y="115" text-anchor="middle" fill="#ccc" font-size="8">→ Kristal & foliasi</text>
+            </svg>
+            <p>Terbentuk dari perubahan batuan akibat suhu & tekanan.</p>
+            <span class="tag">Kontak: Marmer, Kuarsit</span>
+            <span class="tag">Regional: Gneiss, Sekis</span>
+            <span class="tag">Dinamo: Sabak, Filit</span>
+        </div>
+    </div>
+</div>
+
+<!-- ================= ENDOGEN ================= -->
+<div id="endogen" class="screen">
+    <div class="navbar">
+        <button class="btn btn-nav" onclick="showScreen('mainMenu')">🏠 Menu</button>
+        <button class="btn btn-nav" onclick="showScreen('batuan')">⬅️ Sebelumnya</button>
+        <button class="btn btn-nav" onclick="showScreen('eksogen')">Selanjutnya ➡️</button>
+    </div>
+    <h2>🌋 Tenaga Endogen</h2>
+    <p>Tenaga yang berasal dari dalam bumi dan menggerakkan lempeng serta membentuk relief permukaan bumi.</p>
+    <svg class="illustration" viewBox="0 0 500 180" xmlns="http://www.w3.org/2000/svg">
+        <rect width="500" height="180" rx="12" fill="#0d1b2a"/>
+        <text x="250" y="25" text-anchor="middle" fill="#FF8C00" font-size="14" font-weight="bold">TENAGA ENDOGEN</text>
+        <!-- Tektonisme -->
+        <g transform="translate(80,60)">
+            <polygon points="0,60 30,20 60,60" fill="#2E8B57"/>
+            <polygon points="40,60 70,30 100,60" fill="#1E90FF"/>
+            <text x="50" y="80" text-anchor="middle" fill="#fff" font-size="10">Tektonisme</text>
+        </g>
+        <!-- Vulkanisme -->
+        <g transform="translate(230,50)">
+            <polygon points="0,70 35,15 70,70" fill="#8B5A2B"/>
+            <circle cx="35" cy="15" r="5" fill="#FF4500"/>
+            <ellipse cx="35" cy="10" rx="8" ry="5" fill="#FF8C00" opacity="0.6"/>
+            <text x="35" y="85" text-anchor="middle" fill="#fff" font-size="10">Vulkanisme</text>
+        </g>
+        <!-- Seisme -->
+        <g transform="translate(380,60)">
+            <circle cx="35" cy="35" r="30" fill="none" stroke="#FFD700" stroke-width="2"/>
+            <path d="M 10 35 L 20 25 L 30 45 L 40 25 L 50 45 L 60 35" stroke="#FFD700" stroke-width="2" fill="none"/>
+            <text x="35" y="85" text-anchor="middle" fill="#fff" font-size="10">Seisme</text>
+        </g>
+    </svg>
+    <div class="content-grid">
+        <div class="info-box">
+            <h4>🔀 A. Tektonisme</h4>
+            <svg class="illustration-small" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="190" height="90" rx="10" fill="#0d1b2a" stroke="#2E8B57" stroke-width="2"/>
+                <path d="M 20 80 Q 60 30 100 60 T 180 40" stroke="#FF8C00" stroke-width="3" fill="none"/>
+                <path d="M 20 70 Q 60 20 100 50 T 180 30" stroke="#2E8B57" stroke-width="3" fill="none"/>
+                <text x="100" y="90" text-anchor="middle" fill="#fff" font-size="9">Lipatan kerak bumi</text>
+            </svg>
+            <p>Tenaga yang menyebabkan pergerakan, lipatan, dan patahan pada kerak bumi.</p>
+            <p><strong>Lipatan:</strong> lipatan kerak bumi membentuk pegunungan.</p>
+            <p><strong>Patahan:</strong> retakan/rekahan kerak bumi akibat tekanan.</p>
+        </div>
+        <div class="info-box">
+            <h4>🌋 B. Vulkanisme</h4>
+            <svg class="illustration-small" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="190" height="90" rx="10" fill="#0d1b2a" stroke="#FF4500" stroke-width="2"/>
+                <polygon points="40,90 100,20 160,90" fill="#8B5A2B"/>
+                <path d="M 90 25 Q 100 5 110 25" stroke="#FF4500" stroke-width="3" fill="none"/>
+                <circle cx="100" cy="15" r="6" fill="#FF8C00" opacity="0.7"/>
+                <text x="100" y="95" text-anchor="middle" fill="#fff" font-size="8">Intrusi & Ekstrusi</text>
+            </svg>
+            <p>Aktivitas magma yang naik ke permukaan bumi.</p>
+            <p><strong>Intrusi:</strong> magma naik tetapi tidak sampai ke permukaan.</p>
+            <p><strong>Ekstrusi:</strong> magma keluar ke permukaan sebagai lava.</p>
+            <p>Jenis gunung api: strato, shield, maar.</p>
+        </div>
+        <div class="info-box">
+            <h4>📳 C. Seisme (Gempa Bumi)</h4>
+            <svg class="illustration-small" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="190" height="90" rx="10" fill="#0d1b2a" stroke="#FFD700" stroke-width="2"/>
+                <circle cx="100" cy="50" r="35" fill="none" stroke="#FFD700" stroke-width="1.5"/>
+                <circle cx="100" cy="50" r="22" fill="none" stroke="#FFD700" stroke-width="1.5"/>
+                <circle cx="100" cy="50" r="10" fill="none" stroke="#FFD700" stroke-width="1.5"/>
+                <path d="M 30 50 L 60 50 L 75 35 L 90 65 L 105 35 L 120 65 L 135 50 L 170 50" stroke="#FF4500" stroke-width="2" fill="none"/>
+                <text x="100" y="95" text-anchor="middle" fill="#fff" font-size="8">Getaran gempa</text>
+            </svg>
+            <p>Getaran yang menjalar melalui lapisan bumi.</p>
+            <p><strong>Penyebab:</strong> pergerakan lempeng, aktivitas vulkanik, runtuhan.</p>
+            <p><strong>Jenis:</strong> tektonik, vulkanik, runtuhan.</p>
+            <p><strong>Dampak:</strong> kerusakan bangunan, korban jiwa, tsunami.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ================= EKSOGEN ================= -->
+<div id="eksogen" class="screen">
+    <div class="navbar">
+        <button class="btn btn-nav" onclick="showScreen('mainMenu')">🏠 Menu</button>
+        <button class="btn btn-nav" onclick="showScreen('endogen')">⬅️ Sebelumnya</button>
+        <button class="btn btn-nav" onclick="showScreen('lempeng')">Selanjutnya ➡️</button>
+    </div>
+    <h2>💨 Tenaga Eksogen</h2>
+    <p>Tenaga yang berasal dari luar bumi dan berperan mengubah bentuk permukaan bumi melalui pelapukan, erosi, sedimentasi, dan gerakan massa.</p>
+    <svg class="illustration" viewBox="0 0 500 180" xmlns="http://www.w3.org/2000/svg">
+        <rect width="500" height="180" rx="12" fill="#0d1b2a"/>
+        <text x="250" y="25" text-anchor="middle" fill="#1E90FF" font-size="14" font-weight="bold">TENAGA EKSOGEN</text>
+        <!-- Pelapukan -->
+        <g transform="translate(80,60)">
+            <rect x="10" y="30" width="50" height="40" rx="5" fill="#8B5A2B"/>
+            <line x1="20" y1="30" x2="20" y2="70" stroke="#2E8B57" stroke-width="2"/>
+            <line x1="35" y1="30" x2="30" y2="70" stroke="#2E8B57" stroke-width="2"/>
+            <text x="35" y="85" text-anchor="middle" fill="#fff" font-size="9">Pelapukan</text>
+        </g>
+        <!-- Erosi -->
+        <g transform="translate(230,60)">
+            <path d="M 10 70 Q 35 40 60 70" stroke="#1E90FF" stroke-width="3" fill="none"/>
+            <circle cx="25" cy="55" r="4" fill="#1E90FF"/>
+            <circle cx="45" cy="60" r="3" fill="#1E90FF"/>
+            <text x="35" y="85" text-anchor="middle" fill="#fff" font-size="9">Erosi</text>
+        </g>
+        <!-- Sedimentasi -->
+        <g transform="translate(380,60)">
+            <rect x="10" y="50" width="60" height="6" fill="#d2b48c"/>
+            <rect x="10" y="60" width="60" height="6" fill="#c19a6b"/>
+            <rect x="10" y="70" width="60" height="6" fill="#a0522d"/>
+            <text x="40" y="85" text-anchor="middle" fill="#fff" font-size="9">Sedimentasi</text>
+        </g>
+    </svg>
+    <div class="content-grid">
+        <div class="info-box">
+            <h4>🧪 Pelapukan</h4>
+            <svg class="illustration-small" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="190" height="90" rx="10" fill="#0d1b2a" stroke="#2E8B57" stroke-width="2"/>
+                <rect x="40" y="30" width="50" height="50" rx="4" fill="#8B5A2B"/>
+                <path d="M 50 40 L 60 50 L 55 60 L 70 70" stroke="#FF8C00" stroke-width="2" fill="none"/>
+                <path d="M 75 35 L 80 50 L 85 45" stroke="#FF8C00" stroke-width="2" fill="none"/>
+                <text x="100" y="90" text-anchor="middle" fill="#fff" font-size="8">Batuan pecah</text>
+                <text x="150" y="50" text-anchor="middle" fill="#90ee90" font-size="8">🌱 Biologis</text>
+                <text x="150" y="65" text-anchor="middle" fill="#1E90FF" font-size="8">💧 Kimiawi</text>
+                <text x="150" y="80" text-anchor="middle" fill="#FF8C00" font-size="8">☀️ Fisik</text>
+            </svg>
+            <p><strong>Fisik:</strong> pecahnya batuan akibat suhu, air, angin.</p>
+            <p><strong>Kimiawi:</strong> pelapukan akibat reaksi kimia (air, oksigen, asam).</p>
+            <p><strong>Biologis:</strong> pelapukan oleh akar tanaman, hewan, mikroorganisme.</p>
+        </div>
+        <div class="info-box">
+            <h4>🌊 Erosi</h4>
+            <svg class="illustration-small" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="190" height="90" rx="10" fill="#0d1b2a" stroke="#1E90FF" stroke-width="2"/>
+                <path d="M 20 60 Q 50 40 80 60 T 140 60 T 180 60" stroke="#1E90FF" stroke-width="3" fill="none"/>
+                <circle cx="60" cy="55" r="3" fill="#1E90FF"/>
+                <circle cx="100" cy="58" r="3" fill="#1E90FF"/>
+                <circle cx="140" cy="55" r="3" fill="#1E90FF"/>
+                <text x="100" y="85" text-anchor="middle" fill="#fff" font-size="8">Air • Angin • Gelombang</text>
+            </svg>
+            <p><strong>Air:</strong> pengikisan oleh aliran air.</p>
+            <p><strong>Angin:</strong> pengikisan oleh angin (deflasi).</p>
+            <p><strong>Gelombang laut:</strong> abrasi pantai.</p>
+        </div>
+        <div class="info-box">
+            <h4>🏔️ Sedimentasi & Gerakan Massa</h4>
+            <svg class="illustration-small" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="190" height="90" rx="10" fill="#0d1b2a" stroke="#FF8C00" stroke-width="2"/>
+                <rect x="20" y="55" width="160" height="6" fill="#d2b48c"/>
+                <rect x="20" y="65" width="160" height="6" fill="#c19a6b"/>
+                <rect x="20" y="75" width="160" height="6" fill="#a0522d"/>
+                <path d="M 30 30 L 60 50 L 90 35" stroke="#FF4500" stroke-width="2" fill="none"/>
+                <text x="100" y="90" text-anchor="middle" fill="#fff" font-size="8">Pengendapan & longsor</text>
+            </svg>
+            <p><strong>Sedimentasi:</strong> pengendapan material hasil erosi.</p>
+            <p><strong>Gerakan massa:</strong> longsor, runtuhan batuan, creep.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ================= LEMPENG ================= -->
+<div id="lempeng" class="screen">
+    <div class="navbar">
+        <button class="btn btn-nav" onclick="showScreen('mainMenu')">🏠 Menu</button>
+        <button class="btn btn-nav" onclick="showScreen('eksogen')">⬅️ Sebelumnya</button>
+        <button class="btn btn-nav" onclick="showScreen('fenomena')">Selanjutnya ➡️</button>
+    </div>
+    <h2>🔀 Pergerakan Lempeng Tektonik</h2>
+    <!-- Ilustrasi Pergerakan Lempeng -->
+    <svg class="illustration" viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="500" height="200" rx="12" fill="#0d1b2a"/>
+        <!-- Konvergen -->
+        <g transform="translate(10,20)">
+            <text x="75" y="15" text-anchor="middle" fill="#FF8C00" font-size="11" font-weight="bold">KONVERGEN</text>
+            <rect x="10" y="30" width="60" height="40" rx="4" fill="#2E8B57"/>
+            <rect x="80" y="30" width="60" height="40" rx="4" fill="#1E90FF"/>
+            <text x="50" y="55" text-anchor="middle" fill="white" font-size="9">→</text>
+            <text x="100" y="55" text-anchor="middle" fill="white" font-size="9">←</text>
+            <path d="M 70 40 L 80 50 L 70 60" stroke="#FFD700" stroke-width="2" fill="none"/>
+            <text x="75" y="90" text-anchor="middle" fill="#ccc" font-size="8">Pegunungan</text>
+        </g>
+        <!-- Divergen -->
+        <g transform="translate(175,20)">
+            <text x="75" y="15" text-anchor="middle" fill="#FF8C00" font-size="11" font-weight="bold">DIVERGEN</text>
+            <rect x="10" y="30" width="60" height="40" rx="4" fill="#2E8B57"/>
+            <rect x="80" y="30" width="60" height="40" rx="4" fill="#1E90FF"/>
+            <text x="50" y="55" text-anchor="middle" fill="white" font-size="9">←</text>
+            <text x="100" y="55" text-anchor="middle" fill="white" font-size="9">→</text>
+            <path d="M 70 50 L 80 50" stroke="#FFD700" stroke-width="2" fill="none"/>
+            <text x="75" y="90" text-anchor="middle" fill="#ccc" font-size="8">Punggungan</text>
+        </g>
+        <!-- Transform -->
+        <g transform="translate(340,20)">
+            <text x="75" y="15" text-anchor="middle" fill="#FF8C00" font-size="11" font-weight="bold">TRANSFORM</text>
+            <rect x="10" y="25" width="60" height="25" rx="4" fill="#2E8B57"/>
+            <rect x="80" y="50" width="60" height="25" rx="4" fill="#1E90FF"/>
+            <text x="40" y="42" text-anchor="middle" fill="white" font-size="9">↓</text>
+            <text x="110" y="67" text-anchor="middle" fill="white" font-size="9">↑</text>
+            <text x="75" y="90" text-anchor="middle" fill="#ccc" font-size="8">Sesar geser</text>
+        </g>
+        <!-- Indonesia -->
+        <text x="250" y="130" text-anchor="middle" fill="#FFD700" font-size="11">🇮🇩 Indonesia: pertemuan 3 lempeng</text>
+        <text x="250" y="150" text-anchor="middle" fill="#ccc" font-size="9">Indo-Australia • Eurasia • Pasifik</text>
+    </svg>
+    <div class="content-grid">
+        <div class="info-box">
+            <h4>➡️⬅️ Konvergen (Bertumbukan)</h4>
+            <div class="plate-animation">
+                <div class="plate plate-left"></div>
+                <div class="plate-arrow">→ ←</div>
+                <div class="plate plate-right"></div>
+            </div>
+            <p>Dua lempeng saling mendekat. Menghasilkan pegunungan, palung laut, dan gunung api. Contoh: Lempeng Indo-Australia bertumbukan dengan Lempeng Eurasia.</p>
+        </div>
+        <div class="info-box">
+            <h4>⬅️➡️ Divergen (Bergerak Menjauh)</h4>
+            <div class="plate-animation">
+                <div class="plate plate-left" style="left:25%;"></div>
+                <div class="plate-arrow">← →</div>
+                <div class="plate plate-right" style="right:25%;"></div>
+            </div>
+            <p>Dua lempeng saling menjauh. Menghasilkan punggungan tengah samudra dan lantai samudra baru. Contoh: Mid-Atlantic Ridge.</p>
+        </div>
+        <div class="info-box">
+            <h4>↕️ Transform (Saling Bergeser)</h4>
+            <div class="plate-animation">
+                <div class="plate plate-left" style="left:20%;top:30%;"></div>
+                <div class="plate-arrow">↕</div>
+                <div class="plate plate-right" style="right:20%;top:60%;"></div>
+            </div>
+            <p>Dua lempeng saling bergeser horizontal. Menghasilkan patahan geser dan gempa. Contoh: Sesar San Andreas.</p>
+        </div>
+    </div>
+    <div class="content-card" style="text-align:center;">
+        <h3>🇮🇩 Posisi Indonesia</h3>
+        <svg class="illustration" viewBox="0 0 500 180" xmlns="http://www.w3.org/2000/svg">
+            <rect width="500" height="180" rx="12" fill="#0a1a2a"/>
+            <!-- Lempeng -->
+            <rect x="20" y="20" width="150" height="140" rx="8" fill="#2E8B57" opacity="0.6"/>
+            <text x="95" y="40" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">EURASIA</text>
+            <rect x="180" y="20" width="150" height="140" rx="8" fill="#FF8C00" opacity="0.6"/>
+            <text x="255" y="40" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">INDO-AUSTRALIA</text>
+            <rect x="340" y="20" width="140" height="140" rx="8" fill="#1E90FF" opacity="0.6"/>
+            <text x="410" y="40" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">PASIFIK</text>
+            <!-- Indonesia -->
+            <ellipse cx="250" cy="110" rx="30" ry="15" fill="#FFD700"/>
+            <text x="250" y="115" text-anchor="middle" fill="#000" font-size="10" font-weight="bold">🇮🇩</text>
+            <text x="250" y="150" text-anchor="middle" fill="#FFD700" font-size="10">Pertemuan 3 lempeng</text>
+        </svg>
+        <p>Indonesia berada pada pertemuan tiga lempeng tektonik utama: <strong>Lempeng Indo-Australia, Lempeng Eurasia, dan Lempeng Pasifik</strong>. Kondisi ini menjadikan Indonesia rawan gempa bumi, tsunami, dan aktivitas vulkanik.</p>
+    </div>
+</div>
+
+<!-- ================= FENOMENA ================= -->
+<div id="fenomena" class="screen">
+    <div class="navbar">
+        <button class="btn btn-nav" onclick="showScreen('mainMenu')">🏠 Menu</button>
+        <button class="btn btn-nav" onclick="showScreen('lempeng')">⬅️ Sebelumnya</button>
+        <button class="btn btn-nav" onclick="showScreen('simulasi')">Selanjutnya ➡️</button>
+    </div>
+    <h2>🇮🇩 Fenomena Geologi di Indonesia</h2>
+    <div class="content-grid">
+        <div class="info-box">
+            <h4>🌋 Gunung Meletus</h4>
+            <svg class="illustration-small" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="190" height="90" rx="10" fill="#0d1b2a" stroke="#FF4500" stroke-width="2"/>
+                <polygon points="50,90 100,30 150,90" fill="#8B5A2B"/>
+                <path d="M 90 35 Q 100 10 110 35" stroke="#FF4500" stroke-width="3" fill="none"/>
+                <circle cx="100" cy="20" r="8" fill="#FF8C00" opacity="0.6"/>
+                <text x="100" y="95" text-anchor="middle" fill="#fff" font-size="8">Erupsi gunung api</text>
+            </svg>
+            <p>Terjadi akibat aktivitas magma yang keluar ke permukaan. Indonesia memiliki 127 gunung api aktif. Contoh: Merapi, Sinabung, Semeru.</p>
+        </div>
+        <div class="info-box">
+            <h4>📳 Gempa Bumi Tektonik</h4>
+            <svg class="illustration-small" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="190" height="90" rx="10" fill="#0d1b2a" stroke="#FFD700" stroke-width="2"/>
+                <path d="M 20 50 L 50 30 L 80 70 L 110 30 L 140 70 L 170 50" stroke="#FFD700" stroke-width="2" fill="none"/>
+                <circle cx="100" cy="50" r="35" fill="none" stroke="#FFD700" stroke-width="1" opacity="0.5"/>
+                <text x="100" y="95" text-anchor="middle" fill="#fff" font-size="8">Getaran tektonik</text>
+            </svg>
+            <p>Terjadi akibat tumbukan lempeng. Indonesia mengalami ribuan gempa setiap tahun. Contoh: Gempa Aceh 2004, Cianjur 2022.</p>
+        </div>
+        <div class="info-box">
+            <h4>⛰️ Tanah Longsor</h4>
+            <svg class="illustration-small" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="190" height="90" rx="10" fill="#0d1b2a" stroke="#8B5A2B" stroke-width="2"/>
+                <path d="M 20 80 L 60 30 L 100 50 L 140 20 L 180 80 Z" fill="#8B5A2B" opacity="0.6"/>
+                <circle cx="90" cy="55" r="5" fill="#FF4500" opacity="0.8"/>
+                <circle cx="110" cy="65" r="4" fill="#FF4500" opacity="0.8"/>
+                <text x="100" y="95" text-anchor="middle" fill="#fff" font-size="8">Gerakan massa tanah</text>
+            </svg>
+            <p>Gerakan massa tanah akibat gravitasi, dipicu hujan deras dan lereng terjal. Sering terjadi di Jawa Barat, Sumatera, Sulawesi.</p>
+        </div>
+        <div class="info-box">
+            <h4>🌊 Tsunami</h4>
+            <svg class="illustration-small" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="190" height="90" rx="10" fill="#0d1b2a" stroke="#1E90FF" stroke-width="2"/>
+                <path d="M 20 80 Q 40 40 60 70 Q 80 30 100 70 Q 120 30 140 70 Q 160 40 180 80" stroke="#1E90FF" stroke-width="3" fill="none"/>
+                <circle cx="100" cy="20" r="10" fill="#FFD700" opacity="0.5"/>
+                <text x="100" y="95" text-anchor="middle" fill="#fff" font-size="8">Gelombang tsunami</text>
+            </svg>
+            <p>Gelombang laut raksasa akibat gempa bawah laut. Contoh: Tsunami Aceh 2004, Palu 2018.</p>
+        </div>
+        <div class="info-box">
+            <h4>🏔️ Pembentukan Pegunungan</h4>
+            <svg class="illustration-small" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="190" height="90" rx="10" fill="#0d1b2a" stroke="#2E8B57" stroke-width="2"/>
+                <polygon points="20,80 60,30 100,80" fill="#2E8B57"/>
+                <polygon points="80,80 130,20 180,80" fill="#1E90FF"/>
+                <text x="100" y="95" text-anchor="middle" fill="#fff" font-size="8">Lipatan pegunungan</text>
+            </svg>
+            <p>Terjadi akibat tumbukan lempeng yang mengangkat lapisan batuan. Contoh: Pegunungan Bukit Barisan, Pegunungan Jaya Wijaya.</p>
+        </div>
+        <div class="info-box">
+            <h4>💨 Aktivitas Vulkanisme</h4>
+            <svg class="illustration-small" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="190" height="90" rx="10" fill="#0d1b2a" stroke="#FF8C00" stroke-width="2"/>
+                <circle cx="60" cy="50" r="15" fill="none" stroke="#FF8C00" stroke-width="2"/>
+                <path d="M 50 40 Q 60 20 70 40" stroke="#FF4500" stroke-width="2" fill="none"/>
+                <text x="60" y="80" text-anchor="middle" fill="#fff" font-size="7">Geyser</text>
+                <circle cx="130" cy="55" r="12" fill="none" stroke="#FF8C00" stroke-width="2"/>
+                <path d="M 122 48 Q 130 30 138 48" stroke="#FF4500" stroke-width="2" fill="none"/>
+                <text x="130" y="85" text-anchor="middle" fill="#fff" font-size="7">Mata air panas</text>
+            </svg>
+            <p>Meliputi letusan, geyser, mata air panas, dan fumarol. Contoh: Kawah Ijen, Tangkuban Perahu.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ================= SIMULASI ================= -->
+<div id="simulasi" class="screen">
+    <div class="navbar">
+        <button class="btn btn-nav" onclick="showScreen('mainMenu')">🏠 Menu</button>
+        <button class="btn btn-nav" onclick="showScreen('fenomena')">⬅️ Sebelumnya</button>
+        <button class="btn btn-nav" onclick="showScreen('kuis')">Selanjutnya ➡️</button>
+    </div>
+    <h2>🧪 Simulasi Interaktif</h2>
+    <div class="content-card">
+        <h3>Eksplorasi Struktur Lapisan Bumi</h3>
+        <p>Klik tombol di bawah untuk melihat animasi penampang bumi:</p>
+        <button class="btn btn-primary" onclick="simulateEarth()">🌍 Tampilkan Penampang Bumi</button>
+        <div id="simulasiEarth" style="display:none; margin-top:20px;">
+            <svg class="illustration" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="max-width:300px;">
+                <defs>
+                    <radialGradient id="coreGrad2" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#FFD700"/>
+                        <stop offset="70%" stop-color="#FF4500"/>
+                        <stop offset="100%" stop-color="#8B0000"/>
+                    </radialGradient>
+                </defs>
+                <circle cx="200" cy="200" r="190" fill="#2E8B57"/>
+                <circle cx="200" cy="200" r="180" fill="#8B5A2B"/>
+                <circle cx="200" cy="200" r="150" fill="#FF8C00"/>
+                <circle cx="200" cy="200" r="90" fill="#FF4500"/>
+                <circle cx="200" cy="200" r="45" fill="url(#coreGrad2)"/>
+                <text x="200" y="15" text-anchor="middle" fill="#fff" font-size="12">Kerak</text>
+                <text x="360" y="200" text-anchor="middle" fill="#fff" font-size="12">Mantel</text>
+                <text x="200" y="385" text-anchor="middle" fill="#fff" font-size="12">Inti Dalam</text>
+            </svg>
+        </div>
+    </div>
+    <div class="content-card">
+        <h3>Simulasi Pergerakan Lempeng</h3>
+        <p>Pilih jenis pergerakan:</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+            <button class="btn btn-secondary" onclick="simulatePlate('konvergen')">Konvergen</button>
+            <button class="btn btn-secondary" onclick="simulatePlate('divergen')">Divergen</button>
+            <button class="btn btn-secondary" onclick="simulatePlate('transform')">Transform</button>
+        </div>
+        <div id="plateSim" style="margin-top:20px;font-size:1.1em;color:var(--orange);text-align:center;min-height:60px;"></div>
+    </div>
+</div>
+
+<!-- ================= KUIS ================= -->
+<div id="kuis" class="screen">
+    <div class="navbar">
+        <button class="btn btn-nav" onclick="showScreen('mainMenu')">🏠 Menu</button>
+        <button class="btn btn-nav" onclick="showScreen('simulasi')">⬅️ Sebelumnya</button>
+        <button class="btn btn-nav" onclick="showScreen('game')">Selanjutnya ➡️</button>
+    </div>
+    <h2>📝 Kuis Interaktif</h2>
+    <div class="progress-bar"><div class="progress-fill" id="quizProgress" style="width:0%"></div></div>
+    <div class="quiz-container" id="quizContainer">
+        <div class="question-box" id="questionBox">
+            <div class="question-number" id="questionNumber">Soal 1 dari 15</div>
+            <div class="question-text" id="questionText"></div>
+            <div class="options" id="optionsContainer"></div>
+            <div class="feedback" id="feedbackBox"></div>
+        </div>
+        <div style="text-align:center;margin-top:20px;">
+            <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" style="display:none;">Soal Berikutnya ➡️</button>
+        </div>
+    </div>
+    <div id="quizResult" style="display:none;">
+        <div class="result-card">
+            <h2>Hasil Kuis</h2>
+            <div class="score-big" id="finalScore">0</div>
+            <p>dari 15 soal</p>
+            <div class="badge-result" id="resultBadge"></div>
+            <br><br>
+            <button class="btn btn-primary" onclick="restartQuiz()">🔄 Ulangi Kuis</button>
+            <button class="btn btn-secondary" onclick="showScreen('mainMenu')">🏠 Menu Utama</button>
+        </div>
+    </div>
+</div>
+
+<!-- ================= GAME ================= -->
+<div id="game" class="screen">
+    <div class="navbar">
+        <button class="btn btn-nav" onclick="showScreen('mainMenu')">🏠 Menu</button>
+        <button class="btn btn-nav" onclick="showScreen('kuis')">⬅️ Sebelumnya</button>
+        <button class="btn btn-nav" onclick="showScreen('rangkuman')">Selanjutnya ➡️</button>
+    </div>
+    <h2>🎮 Permainan Edukatif</h2>
+    
+    <!-- Game 1: Drag & Drop Lapisan Bumi -->
+    <div class="content-card">
+        <h3>Game 1: Cocokkan Lapisan Bumi dengan Karakteristiknya</h3>
+        <p>Seret nama lapisan ke kotak karakteristik yang sesuai.</p>
+        <div class="drag-container">
+            <div class="drag-items" id="dragItems">
+                <div class="drag-item" draggable="true" data-name="Kerak Bumi" ondragstart="dragStart(event)">Kerak Bumi</div>
+                <div class="drag-item" draggable="true" data-name="Mantel Bumi" ondragstart="dragStart(event)">Mantel Bumi</div>
+                <div class="drag-item" draggable="true" data-name="Inti Luar" ondragstart="dragStart(event)">Inti Luar</div>
+                <div class="drag-item" draggable="true" data-name="Inti Dalam" ondragstart="dragStart(event)">Inti Dalam</div>
+            </div>
+            <div class="drop-zones" id="dropZones">
+                <div class="drop-zone" data-answer="Kerak Bumi" ondrop="dropItem(event)" ondragover="allowDrop(event)">Lapisan terluar bumi, terdiri dari batuan padat</div>
+                <div class="drop-zone" data-answer="Mantel Bumi" ondrop="dropItem(event)" ondragover="allowDrop(event)">Lapisan tebal, bersifat padat & dapat mengalir lambat</div>
+                <div class="drop-zone" data-answer="Inti Luar" ondrop="dropItem(event)" ondragover="allowDrop(event)">Tersusun dari besi & nikel dalam keadaan cair</div>
+                <div class="drop-zone" data-answer="Inti Dalam" ondrop="dropItem(event)" ondragover="allowDrop(event)">Bagian paling dalam, besi & nikel padat</div>
+            </div>
+        </div>
+        <div style="text-align:center;"><p id="game1Result" style="color:var(--green);font-weight:bold;"></p></div>
+    </div>
+
+    <!-- Game 2: Kelompokkan Batuan -->
+    <div class="content-card">
+        <h3>Game 2: Kelompokkan Batuan Berdasarkan Jenisnya</h3>
+        <p>Klik tombol untuk mengelompokkan batuan:</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;" id="rockGame">
+            <button class="btn btn-secondary" onclick="classifyRock('granit','beku')">Granit</button>
+            <button class="btn btn-secondary" onclick="classifyRock('batu pasir','sedimen')">Batu Pasir</button>
+            <button class="btn btn-secondary" onclick="classifyRock('marmer','metamorf')">Marmer</button>
+            <button class="btn btn-secondary" onclick="classifyRock('basalt','beku')">Basalt</button>
+            <button class="btn btn-secondary" onclick="classifyRock('batu kapur','sedimen')">Batu Kapur</button>
+            <button class="btn btn-secondary" onclick="classifyRock('sabak','metamorf')">Sabak</button>
+        </div>
+        <div id="rockResult" style="text-align:center;margin-top:15px;font-size:1.1em;"></div>
+    </div>
+
+    <!-- Game 3: Identifikasi Tenaga -->
+    <div class="content-card">
+        <h3>Game 3: Identifikasi Tenaga Endogen & Eksogen</h3>
+        <p>Klik kategori yang sesuai untuk setiap fenomena:</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;" id="tenagaGame">
+            <button class="btn btn-secondary" onclick="classifyTenaga('gunung meletus','endogen')">Gunung Meletus</button>
+            <button class="btn btn-secondary" onclick="classifyTenaga('erosi pantai','eksogen')">Erosi Pantai</button>
+            <button class="btn btn-secondary" onclick="classifyTenaga('gempa tektonik','endogen')">Gempa Tektonik</button>
+            <button class="btn btn-secondary" onclick="classifyTenaga('pelapukan batuan','eksogen')">Pelapukan Batuan</button>
+            <button class="btn btn-secondary" onclick="classifyTenaga('tsunami','endogen')">Tsunami</button>
+            <button class="btn btn-secondary" onclick="classifyTenaga('sedimentasi sungai','eksogen')">Sedimentasi Sungai</button>
+        </div>
+        <div id="tenagaResult" style="text-align:center;margin-top:15px;font-size:1.1em;"></div>
+    </div>
+</div>
+
+<!-- ================= RANGKUMAN ================= -->
+<div id="rangkuman" class="screen">
+    <div class="navbar">
+        <button class="btn btn-nav" onclick="showScreen('mainMenu')">🏠 Menu</button>
+        <button class="btn btn-nav" onclick="showScreen('game')">⬅️ Sebelumnya</button>
+        <button class="btn btn-nav" onclick="showScreen('penutup')">Selanjutnya ➡️</button>
+    </div>
+    <h2>🗺️ Rangkuman Materi</h2>
+    <div class="content-card" style="text-align:center;">
+        <p style="font-size:1.1em;color:var(--orange);">Peta Konsep Litosfer</p>
+        <svg class="illustration" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+            <rect width="600" height="300" rx="12" fill="#0d1b2a"/>
+            <!-- Pusat -->
+            <ellipse cx="300" cy="150" rx="80" ry="35" fill="#FF8C00" opacity="0.8"/>
+            <text x="300" y="148" text-anchor="middle" fill="white" font-size="14" font-weight="bold">LITOSFER</text>
+            <text x="300" y="165" text-anchor="middle" fill="white" font-size="10">Lapisan batuan bumi</text>
+            <!-- Cabang -->
+            <line x1="300" y1="115" x2="120" y2="50" stroke="#2E8B57" stroke-width="2"/>
+            <line x1="300" y1="115" x2="480" y2="50" stroke="#2E8B57" stroke-width="2"/>
+            <line x1="220" y1="150" x2="80" y2="150" stroke="#1E90FF" stroke-width="2"/>
+            <line x1="380" y1="150" x2="520" y2="150" stroke="#1E90FF" stroke-width="2"/>
+            <line x1="300" y1="185" x2="120" y2="250" stroke="#FF4500" stroke-width="2"/>
+            <line x1="300" y1="185" x2="480" y2="250" stroke="#FF4500" stroke-width="2"/>
+            <!-- Node -->
+            <rect x="50" y="30" width="140" height="40" rx="8" fill="#2E8B57"/>
+            <text x="120" y="55" text-anchor="middle" fill="white" font-size="11">🌐 Struktur Bumi</text>
+            <rect x="410" y="30" width="140" height="40" rx="8" fill="#2E8B57"/>
+            <text x="480" y="55" text-anchor="middle" fill="white" font-size="11">🪨 Jenis Batuan</text>
+            <rect x="10" y="130" width="140" height="40" rx="8" fill="#1E90FF"/>
+            <text x="80" y="155" text-anchor="middle" fill="white" font-size="11">🌋 Tenaga Endogen</text>
+            <rect x="450" y="130" width="140" height="40" rx="8" fill="#1E90FF"/>
+            <text x="520" y="155" text-anchor="middle" fill="white" font-size="11">💨 Tenaga Eksogen</text>
+            <rect x="50" y="230" width="140" height="40" rx="8" fill="#FF4500"/>
+            <text x="120" y="255" text-anchor="middle" fill="white" font-size="11">🔀 Pergerakan Lempeng</text>
+            <rect x="410" y="230" width="140" height="40" rx="8" fill="#FF4500"/>
+            <text x="480" y="255" text-anchor="middle" fill="white" font-size="11">🇮🇩 Fenomena Indonesia</text>
+        </svg>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:15px;margin-top:20px;">
+            <div class="info-box" style="cursor:pointer;" onclick="alert('Litosfer: lapisan batuan padat terluar bumi, ketebalan 50-100 km.')">
+                <h4>📖 Pengertian</h4><p>Lapisan batuan padat terluar bumi</p>
+            </div>
+            <div class="info-box" style="cursor:pointer;" onclick="alert('Struktur Bumi: Kerak, Mantel, Inti Luar, Inti Dalam.')">
+                <h4>🌐 Struktur Bumi</h4><p>Kerak, Mantel, Inti Luar, Inti Dalam</p>
+            </div>
+            <div class="info-box" style="cursor:pointer;" onclick="alert('Batuan: Beku (granit, basalt), Sedimen (batu pasir, kapur), Metamorf (marmer, sabak).')">
+                <h4>🪨 Jenis Batuan</h4><p>Beku, Sedimen, Metamorf</p>
+            </div>
+            <div class="info-box" style="cursor:pointer;" onclick="alert('Tenaga Endogen: Tektonisme, Vulkanisme, Seisme.')">
+                <h4>🌋 Tenaga Endogen</h4><p>Tektonisme, Vulkanisme, Seisme</p>
+            </div>
+            <div class="info-box" style="cursor:pointer;" onclick="alert('Tenaga Eksogen: Pelapukan, Erosi, Sedimentasi, Gerakan Massa.')">
+                <h4>💨 Tenaga Eksogen</h4><p>Pelapukan, Erosi, Sedimentasi</p>
+            </div>
+            <div class="info-box" style="cursor:pointer;" onclick="alert('Pergerakan Lempeng: Konvergen, Divergen, Transform.')">
+                <h4>🔀 Pergerakan Lempeng</h4><p>Konvergen, Divergen, Transform</p>
+            </div>
+            <div class="info-box" style="cursor:pointer;" onclick="alert('Fenomena Geologi Indonesia: Gunung meletus, gempa, longsor, tsunami, pegunungan, vulkanisme.')">
+                <h4>🇮🇩 Fenomena Indonesia</h4><p>Gunung api, gempa, tsunami, dll.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= PENUTUP ================= -->
+<div id="penutup" class="screen">
+    <div class="navbar">
+        <button class="btn btn-nav" onclick="showScreen('mainMenu')">🏠 Menu</button>
+        <button class="btn btn-nav" onclick="showScreen('rangkuman')">⬅️ Sebelumnya</button>
+    </div>
+    <div style="text-align:center;padding:60px 20px;">
+        <svg class="illustration" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="max-width:180px;">
+            <circle cx="100" cy="100" r="90" fill="#1E90FF" opacity="0.8"/>
+            <circle cx="70" cy="80" r="20" fill="#2E8B57"/>
+            <circle cx="130" cy="100" r="15" fill="#2E8B57"/>
+            <circle cx="90" cy="140" r="12" fill="#2E8B57"/>
+            <text x="100" y="105" text-anchor="middle" fill="white" font-size="30">🌍</text>
+        </svg>
+        <h2>Terima Kasih!</h2>
+        <p style="font-size:1.3em;max-width:600px;margin:20px auto;color:#ddd;font-style:italic;">
+            "Kenali bumi, pahami prosesnya, dan jagalah lingkungan untuk masa depan."
+        </p>
+        <br>
+        <button class="btn btn-primary" onclick="showScreen('mainMenu')">🏠 KEMBALI KE MENU UTAMA</button>
+    </div>
+</div>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+// ===== NAVIGASI =====
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+    if (id === 'kuis') initQuiz();
+    if (id === 'game') resetGames();
+}
+
+function startLearning() {
+    showScreen('mainMenu');
+}
+
+// ===== LAYER TOGGLE =====
+function toggleLayer(el) {
+    const detail = el.nextElementSibling;
+    const isActive = el.classList.contains('active');
+    document.querySelectorAll('.layer-item').forEach(i => i.classList.remove('active'));
+    document.querySelectorAll('.layer-detail').forEach(d => d.classList.remove('show'));
+    if (!isActive) {
+        el.classList.add('active');
+        detail.classList.add('show');
+    }
+}
+
+// ===== QUIZ =====
+const questions = [
+    { q: "Litosfer berasal dari kata 'lithos' yang berarti...", opts: ["Batu", "Tanah", "Air", "Api"], ans: 0, exp: "Litosfer berasal dari bahasa Yunani: lithos = batu, sphaira = lapisan." },
+    { q: "Lapisan terluar bumi disebut...", opts: ["Mantel", "Inti Luar", "Kerak", "Inti Dalam"], ans: 2, exp: "Kerak bumi adalah lapisan terluar bumi dengan ketebalan 5-70 km." },
+    { q: "Batuan yang terbentuk dari magma yang membeku disebut batuan...", opts: ["Sedimen", "Beku", "Metamorf", "Organik"], ans: 1, exp: "Batuan beku terbentuk dari magma atau lava yang membeku." },
+    { q: "Contoh batuan metamorf adalah...", opts: ["Granit", "Batu Pasir", "Marmer", "Basalt"], ans: 2, exp: "Marmer adalah batuan metamorf yang berasal dari batu kapur." },
+    { q: "Tenaga yang berasal dari dalam bumi disebut tenaga...", opts: ["Eksogen", "Endogen", "Erosi", "Sedimentasi"], ans: 1, exp: "Tenaga endogen berasal dari dalam bumi (tektonisme, vulkanisme, seisme)." },
+    { q: "Pergerakan lempeng yang saling mendekat disebut...", opts: ["Divergen", "Transform", "Konvergen", "Subduksi"], ans: 2, exp: "Konvergen adalah pergerakan dua lempeng yang saling mendekat dan bertumbukan." },
+    { q: "Indonesia terletak pada pertemuan tiga lempeng, kecuali...", opts: ["Indo-Australia", "Eurasia", "Pasifik", "Amerika"], ans: 3, exp: "Indonesia berada di antara Lempeng Indo-Australia, Eurasia, dan Pasifik." },
+    { q: "Proses pengikisan batuan oleh angin disebut...", opts: ["Abrasi", "Deflasi", "Erosi air", "Sedimentasi"], ans: 1, exp: "Deflasi adalah pengikisan oleh angin. Abrasi oleh gelombang laut." },
+    { q: "Inti bumi bagian dalam tersusun dari...", opts: ["Besi dan nikel padat", "Besi dan nikel cair", "Silikat", "Magma"], ans: 0, exp: "Inti dalam tersusun dari besi dan nikel dalam keadaan padat karena tekanan sangat tinggi." },
+    { q: "Gempa yang disebabkan oleh aktivitas gunung api disebut gempa...", opts: ["Tektonik", "Vulkanik", "Runtuhan", "Buatan"], ans: 1, exp: "Gempa vulkanik disebabkan oleh aktivitas gunung api." },
+    { q: "Batuan sedimen yang terbentuk dari sisa-sisa organisme adalah...", opts: ["Batu pasir", "Batu kapur organik", "Konglomerat", "Granit"], ans: 1, exp: "Batu kapur organik terbentuk dari sisa organisme laut seperti kerang dan karang." },
+    { q: "Lapisan mantel bumi memiliki sifat...", opts: ["Padat dan kaku", "Cair sepenuhnya", "Padat tetapi dapat mengalir lambat", "Gas"], ans: 2, exp: "Mantel bersifat padat tetapi dapat mengalir sangat lambat karena suhu dan tekanan tinggi." },
+    { q: "Alat pencatat gempa bumi disebut...", opts: ["Barometer", "Seismograf", "Termometer", "Higrometer"], ans: 1, exp: "Seismograf adalah alat yang digunakan untuk mencatat getaran gempa bumi." },
+    { q: "Batuan beku yang terbentuk di dalam bumi disebut batuan beku...", opts: ["Luar", "Korok", "Dalam", "Sedimen"], ans: 2, exp: "Batuan beku dalam (plutonik) terbentuk dari magma yang membeku di dalam bumi." },
+    { q: "Tenaga eksogen yang menyebabkan perubahan bentuk permukaan bumi adalah...", opts: ["Tektonisme", "Vulkanisme", "Pelapukan dan erosi", "Seisme"], ans: 2, exp: "Tenaga eksogen meliputi pelapukan, erosi, sedimentasi, dan gerakan massa." }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+
+function initQuiz() {
+    currentQ = 0;
+    score = 0;
+    answered = false;
+    document.getElementById('quizContainer').style.display = 'block';
+    document.getElementById('quizResult').style.display = 'none';
+    document.getElementById('nextBtn').style.display = 'none';
+    showQuestion(0);
+}
+
+function showQuestion(index) {
+    if (index >= questions.length) {
+        showResult();
+        return;
+    }
+    answered = false;
+    const q = questions[index];
+    document.getElementById('questionNumber').textContent = `Soal ${index + 1} dari ${questions.length}`;
+    document.getElementById('questionText').textContent = q.q;
+    document.getElementById('quizProgress').style.width = `${((index) / questions.length) * 100}%`;
+
+    const optsContainer = document.getElementById('optionsContainer');
+    optsContainer.innerHTML = '';
+    q.opts.forEach((opt, i) => {
+        const div = document.createElement('div');
+        div.className = 'option';
+        div.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
+        div.onclick = () => selectAnswer(i, div);
+        optsContainer.appendChild(div);
+    });
+
+    document.getElementById('feedbackBox').className = 'feedback';
+    document.getElementById('feedbackBox').innerHTML = '';
+    document.getElementById('nextBtn').style.display = 'none';
+}
+
+function selectAnswer(selected, el) {
+    if (answered) return;
+    answered = true;
+    const q = questions[currentQ];
+    const options = document.querySelectorAll('#optionsContainer .option');
+
+    options.forEach(o => o.classList.add('disabled'));
+    options[q.ans].classList.add('correct');
+
+    const fb = document.getElementById('feedbackBox');
+    if (selected === q.ans) {
+        score++;
+        el.classList.add('correct');
+        fb.className = 'feedback correct-fb show';
+        fb.innerHTML = `✅ <strong>Benar!</strong><br>${q.exp}`;
+    } else {
+        el.classList.add('wrong');
+        fb.className = 'feedback wrong-fb show';
+        fb.innerHTML = `❌ <strong>Salah.</strong> Jawaban benar: ${String.fromCharCode(65 + q.ans)}.<br>${q.exp}`;
+    }
+
+    document.getElementById('quizProgress').style.width = `${((currentQ + 1) / questions.length) * 100}%`;
+    document.getElementById('nextBtn').style.display = 'inline-block';
+
+    if (currentQ === questions.length - 1) {
+        document.getElementById('nextBtn').textContent = 'Lihat Hasil 🏆';
+    } else {
+        document.getElementById('nextBtn').textContent = 'Soal Berikutnya ➡️';
+    }
+}
+
+function nextQuestion() {
+    currentQ++;
+    if (currentQ < questions.length) {
+        showQuestion(currentQ);
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    document.getElementById('quizContainer').style.display = 'none';
+    document.getElementById('quizResult').style.display = 'block';
+    document.getElementById('finalScore').textContent = score;
+
+    const badge = document.getElementById('resultBadge');
+    const percent = (score / questions.length) * 100;
+    if (percent >= 80) {
+        badge.textContent = '🌟 Sangat Baik! Kamu sudah memahami litosfer dengan baik.';
+        badge.style.background = 'rgba(46,139,87,0.3)';
+        badge.style.color = '#90ee90';
+    } else if (percent >= 60) {
+        badge.textContent = '👍 Baik! Pelajari kembali bagian yang belum dipahami.';
+        badge.style.background = 'rgba(255,140,0,0.3)';
+        badge.style.color = '#ffd700';
+    } else {
+        badge.textContent = '📚 Perlu belajar lagi. Baca kembali materinya ya!';
+        badge.style.background = 'rgba(220,53,69,0.3)';
+        badge.style.color = '#ff6b6b';
+    }
+}
+
+function restartQuiz() {
+    initQuiz();
+}
+
+// ===== SIMULASI =====
+function simulateEarth() {
+    const el = document.getElementById('simulasiEarth');
+    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function simulatePlate(type) {
+    const el = document.getElementById('plateSim');
+    const messages = {
+        konvergen: '➡️⬅️ KONVERGEN: Dua lempeng saling mendekat dan bertumbukan. Menghasilkan pegunungan, palung laut, dan gunung api. Contoh: Lempeng Indo-Australia & Eurasia.',
+        divergen: '⬅️➡️ DIVERGEN: Dua lempeng saling menjauh. Menghasilkan punggungan tengah samudra dan lantai samudra baru. Contoh: Mid-Atlantic Ridge.',
+        transform: '↕️ TRANSFORM: Dua lempeng saling bergeser horizontal. Menghasilkan patahan geser dan gempa. Contoh: Sesar San Andreas.'
+    };
+    el.textContent = messages[type];
+}
+
+// ===== GAME =====
+// Game 1: Drag & Drop
+let dragData = null;
+
+function dragStart(e) {
+    dragData = e.target;
+    e.target.classList.add('dragging');
+    e.dataTransfer.setData('text', e.target.dataset.name);
+}
+
+function allowDrop(e) {
+    e.preventDefault();
+    e.target.classList.add('drag-over');
+}
+
+document.addEventListener('dragleave', (e) => {
+    if (e.target.classList && e.target.classList.contains('drop-zone')) {
+        e.target.classList.remove('drag-over');
+    }
+});
+
+function dropItem(e) {
+    e.preventDefault();
+    const zone = e.target.closest('.drop-zone');
+    if (!zone) return;
+    zone.classList.remove('drag-over');
+
+    const draggedName = e.dataTransfer.getData('text');
+    const answer = zone.dataset.answer;
+
+    if (draggedName === answer) {
+        zone.classList.add('correct-drop');
+        zone.textContent = `✅ ${draggedName}`;
+        zone.style.pointerEvents = 'none';
+        const item = document.querySelector(`.drag-item[data-name="${draggedName}"]`);
+        if (item) item.remove();
+        checkGame1Complete();
+    } else {
+        zone.classList.add('wrong-drop');
+        setTimeout(() => zone.classList.remove('wrong-drop'), 600);
+    }
+}
+
+function checkGame1Complete() {
+    const remaining = document.querySelectorAll('#dragItems .drag-item').length;
+    if (remaining === 0) {
+        document.getElementById('game1Result').textContent = '🎉 Hebat! Semua lapisan berhasil dicocokkan!';
+    }
+}
+
+// Game 2: Kelompokkan Batuan
+const rockAnswers = {
+    'granit': 'beku',
+    'batu pasir': 'sedimen',
+    'marmer': 'metamorf',
+    'basalt': 'beku',
+    'batu kapur': 'sedimen',
+    'sabak': 'metamorf'
+};
+let rockScore = 0;
+let rockAnswered = 0;
+
+function classifyRock(name, type) {
+    const correct = rockAnswers[name];
+    const resultEl = document.getElementById('rockResult');
+    if (correct === type) {
+        resultEl.innerHTML += `<span style="color:#90ee90;">✅ ${name} → ${type}</span><br>`;
+        rockScore += 10;
+    } else {
+        resultEl.innerHTML += `<span style="color:#ff6b6b;">❌ ${name} → ${correct} (bukan ${type})</span><br>`;
+    }
+    rockAnswered++;
+    if (rockAnswered >= 6) {
+        resultEl.innerHTML += `<br><strong>Total skor: ${rockScore}/60</strong>`;
+        document.querySelectorAll('#rockGame button').forEach(b => b.disabled = true);
+    }
+}
+
+// Game 3: Tenaga Endogen & Eksogen
+const tenagaAnswers = {
+    'gunung meletus': 'endogen',
+    'erosi pantai': 'eksogen',
+    'gempa tektonik': 'endogen',
+    'pelapukan batuan': 'eksogen',
+    'tsunami': 'endogen',
+    'sedimentasi sungai': 'eksogen'
+};
+let tenagaScore = 0;
+let tenagaAnswered = 0;
+
+function classifyTenaga(name, type) {
+    const correct = tenagaAnswers[name];
+    const resultEl = document.getElementById('tenagaResult');
+    if (correct === type) {
+        resultEl.innerHTML += `<span style="color:#90ee90;">✅ ${name} → ${type}</span><br>`;
+        tenagaScore += 10;
+    } else {
+        resultEl.innerHTML += `<span style="color:#ff6b6b;">❌ ${name} → ${correct} (bukan ${type})</span><br>`;
+    }
+    tenagaAnswered++;
+    if (tenagaAnswered >= 6) {
+        resultEl.innerHTML += `<br><strong>Total skor: ${tenagaScore}/60</strong>`;
+        document.querySelectorAll('#tenagaGame button').forEach(b => b.disabled = true);
+    }
+}
+
+function resetGames() {
+    // Reset Game 1
+    document.getElementById('game1Result').textContent = '';
+    // Reset Game 2
+    rockScore = 0; rockAnswered = 0;
+    document.getElementById('rockResult').innerHTML = '';
+    document.querySelectorAll('#rockGame button').forEach(b => b.disabled = false);
+    // Reset Game 3
+    tenagaScore = 0; tenagaAnswered = 0;
+    document.getElementById('tenagaResult').innerHTML = '';
+    document.querySelectorAll('#tenagaGame button').forEach(b => b.disabled = false);
+    // Reset drag items
+    const dragContainer = document.getElementById('dragItems');
+    if (dragContainer && dragContainer.children.length < 4) {
+        location.reload();
+    }
+}
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.drop-zone').forEach(zone => {
+        zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+    });
+});
+</script>
+</body>
+</html>
